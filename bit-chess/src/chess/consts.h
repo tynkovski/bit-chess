@@ -27,10 +27,10 @@ const piece DIAGONAL_MOVE = 0b00000010;
 const piece FORWARD_MOVE  = 0b00000001;
 const piece MOVE_MASK     = 0b00011111;
 
-const position BOARD_SIZE  = 120;
-const position BOARD_WIDTH = 8;
-const position RANK_STEP   = 10;
-const position FILE_STEP   = 1;
+const u8 BOARD_SIZE  = 120;
+const u8 BOARD_WIDTH = 8;
+const u8 RANK_STEP   = 10;
+const u8 FILE_STEP   = 1;
 
 const position BOARD_A1   = 21;
 const position BOARD_A2   = 31;

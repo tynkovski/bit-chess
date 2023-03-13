@@ -1,7 +1,7 @@
 #include <iostream>
 #include "chess/board.h";
 
-void print_board(piece_list board) {
+void print_board(board board) {
   std::cout << board_to_string(board);
 }
 
