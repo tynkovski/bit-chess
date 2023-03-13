@@ -4,8 +4,28 @@ bool in_range(u8 x, u8 low, u8 high) {
   return (x - low) <= (high - low);
 }
 
+u8 apply_mask(u8 value, u8 mask) {
+  return value & mask;
+}
+
+bool check_bit(u8 value, u8 mask) {
+  return apply_mask(value, mask) == mask;
+}
+
 color get_color(piece piece) {
-  return piece & COLOR_MASK;
+  return apply_mask(piece, COLOR_MASK);
+}
+
+color get_opposite_color(color color) {
+  return color == BLACK ? WHITE : BLACK;
+}
+
+move get_move_strategy(piece piece) {
+  return apply_mask(piece, MOVE_MASK);
+}
+
+piece get_piece_type(piece piece) {
+  return apply_mask(piece, PIECE_MASK);
 }
 
 bool is_black_piece(piece piece) {
@@ -16,12 +36,16 @@ bool is_white_piece(piece piece) {
   return get_color(piece) == WHITE;
 }
 
+bool is_ghost_piece(piece piece) {
+  return check_bit(piece, OUT_OF_BOARD);
+}
+
 bool is_piece(piece piece) {
-  return piece != NO_PIECE;
+  return !is_ghost_piece(piece) && piece != NO_PIECE;
 }
 
 bool not_piece(piece piece) {
-  return piece == NO_PIECE;
+  return is_ghost_piece(piece) || piece == NO_PIECE;
 }
 
 bool is_out_of_board(position position) {
@@ -36,32 +60,20 @@ bool is_invalid_input(string input) {
     || !in_range(input[1], '1', '8');
 }
 
-move get_move_strategy(piece piece) {
-  return piece & MOVE_MASK;
-}
-
-bool is_short_moving(piece piece) {
-  return (get_move_strategy(piece) & SHORT_MOVE) == SHORT_MOVE;
-}
-
 bool is_long_moving(piece piece) {
-  return (get_move_strategy(piece) & LONG_MOVE) == LONG_MOVE;
+  return check_bit(get_move_strategy(piece), LONG_MOVE);
 }
 
 bool is_cross_moving(piece piece) {
-  return (get_move_strategy(piece) & CROSS_MOVE) == CROSS_MOVE;
+  return check_bit(get_move_strategy(piece), CROSS_MOVE);
 }
 
 bool is_diagonal_moving(piece piece) {
-  return (get_move_strategy(piece) & DIAGONAL_MOVE) == DIAGONAL_MOVE;
+  return check_bit(get_move_strategy(piece), DIAGONAL_MOVE);
 }
 
 bool is_jump_moving(piece piece) {
-  return !is_cross_moving(piece) && !is_diagonal_moving(piece);
-}
-
-color get_opposite_color(color color) {
-  return color == BLACK ? WHITE : BLACK;
+  return check_bit(get_move_strategy(piece), JUMP_MOVE);
 }
 
 board create_board() {
@@ -106,8 +118,7 @@ position_list filter_positions(piece_list board, std::function<bool(position)> f
 
 position_list get_pieces_positions(board board) {
   return filter_positions(
-    board,
-    [board](const position p) {
+    board, [board](const position p) {
       return !is_out_of_board(p) && is_piece(board[p]);
     }
   );
@@ -115,8 +126,7 @@ position_list get_pieces_positions(board board) {
 
 position_list get_enemies_positions(board board, position pos) {
   return filter_positions(
-    board,
-    [board, pos](const position p) {
+    board, [board, pos](const position p) {
       return !is_out_of_board(p)
         && is_piece(board[p])
         && get_color(board[p]) != get_color(board[pos]);
@@ -126,8 +136,7 @@ position_list get_enemies_positions(board board, position pos) {
 
 position_list get_friends_positions(board board, position pos) {
   return filter_positions(
-    board,
-    [board, pos](const position p) {
+    board, [board, pos](const position p) {
       return !is_out_of_board(p)
         && is_piece(board[p])
         && get_color(board[p]) == get_color(board[pos])
@@ -180,7 +189,7 @@ char piece_to_char(piece piece) {
 string board_to_string(board board) {
   string stream = "";
 
-  for (uint8_t rank = BOARD_H7; rank >= BOARD_A1; rank -= 10) {
+  for (uint8_t rank = BOARD_H7; rank >= BOARD_A1; rank -= RANK_STEP) {
     for (uint8_t i = rank; i <= rank + BOARD_WIDTH; ++i) {
       stream += piece_to_char(board[i]);
     }
