@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include "utils.h"
 #include "consts.h"
 #include "defs.h"
 

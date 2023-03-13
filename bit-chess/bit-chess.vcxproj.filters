@@ -27,9 +27,15 @@
     <ClCompile Include="src\chess\defs.h">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\chess\utils.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\board.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\utils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

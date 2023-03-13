@@ -131,10 +131,12 @@
     <ClCompile Include="src\chess\board.cpp" />
     <ClCompile Include="src\chess\consts.h" />
     <ClCompile Include="src\chess\defs.h" />
+    <ClCompile Include="src\chess\utils.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\board.h" />
+    <ClInclude Include="src\chess\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
