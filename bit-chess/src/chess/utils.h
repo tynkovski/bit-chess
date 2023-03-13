@@ -21,3 +21,4 @@ bool is_long_moving(piece piece);
 bool is_cross_moving(piece piece);
 bool is_diagonal_moving(piece piece);
 bool is_jump_moving(piece piece);
+vector<string> split(const string& s, const regex& sep_regex = regex{ "\\s+" });

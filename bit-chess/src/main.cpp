@@ -15,24 +15,46 @@ position input_move() {
   return string_to_position(read());
 }
 
-int main() {
-  piece_list board = fill_board();
-  color color = WHITE;
+board parse_fen(string fen) {
+  board new_board = create_board();
 
-  position_list pieces = get_pieces_positions(board);
-  for (position f : pieces) {
-    std::cout << "board[" << (int)f << "] = " << position_to_string(f) << '\n';
+  vector<string> fen_elements = split(fen);
+
+  string pieces       = fen_elements[0];
+  string side         = fen_elements[1];
+  string castling     = fen_elements[2];
+  string enpassant    = fen_elements[3];
+  string half_move    = fen_elements[4];
+  string full_move    = fen_elements[5];
+
+  u8 rank = 0;
+  for (string row : split(pieces, regex{ "/" })) {
+    u8 file = 0;
+
+    for (char c : row) {
+      u8 current_pos = rank * RANK_STEP + file + BOARD_A1;
+
+      if (isdigit(c)) {
+        file += c - '0';
+      } else {
+        new_board[current_pos] = char_to_piece(c);
+        file++;
+      }
+    }
+    rank++;
   }
+
+  return new_board;
+}
+
+int main() {
+  board board = fill_board();
 
   bool has_error = false;
   try {
     while (!has_error) {
       print_board(board);
       position pos = input_move();
-      position_list friends = get_friends_positions(board, pos);
-      for (position f : friends) {
-        std::cout << "board[" << (int)f << "] = " << position_to_string(f) << '\n';
-      }
     }
   } catch (const std::exception& e) {
     has_error = true;

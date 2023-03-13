@@ -75,3 +75,11 @@ bool is_diagonal_moving(piece piece) {
 bool is_jump_moving(piece piece) {
   return check_bit(get_move_strategy(piece), JUMP_MOVE);
 }
+
+vector<string> split(
+  const string& input, 
+  const regex& sep_regex
+) {
+  std::sregex_token_iterator iter(input.begin(), input.end(), sep_regex, -1), end;
+  return { iter, end };
+}

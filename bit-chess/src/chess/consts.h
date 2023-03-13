@@ -2,6 +2,8 @@
 
 #include "defs.h"
 
+const string START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 const piece NO_PIECE      = 0b00000000;
 const piece OUT_OF_BOARD  = 0b10000000;
 const piece MOVED         = 0b01000000;

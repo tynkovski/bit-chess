@@ -94,7 +94,7 @@ board make_move(
 
 char piece_to_char(piece piece) {
   return not_piece(piece) ? '.'
-    : piece_dictionary {
+    : to_char_dictionary {
       { PAWN + WHITE, 'P'},
       { KNIGNT + WHITE, 'N'},
       { BISHOP + WHITE, 'B'},
@@ -110,10 +110,27 @@ char piece_to_char(piece piece) {
   } [piece] ;
 }
 
+piece char_to_piece(char character) {
+  return to_piece_dictionary {
+    {'P', PAWN + WHITE},
+    {'N', KNIGNT + WHITE},
+    {'B', BISHOP + WHITE},
+    {'R', ROOK + WHITE},
+    {'Q', QUEEN + WHITE},
+    {'K', KING + WHITE},
+    {'p', PAWN + BLACK},
+    {'n', KNIGNT + BLACK},
+    {'b', BISHOP + BLACK},
+    {'r', ROOK + BLACK},
+    {'q', QUEEN + BLACK},
+    {'k', KING + BLACK},
+  } [character] ;
+}
+
 string board_to_string(board board) {
   string stream = "";
 
-  for (uint8_t rank = BOARD_H7; rank >= BOARD_A1; rank -= RANK_STEP) {
+  for (uint8_t rank = BOARD_A8; rank >= BOARD_A1; rank -= RANK_STEP) {
     for (uint8_t i = rank; i <= rank + BOARD_WIDTH; ++i) {
       stream += piece_to_char(board[i]);
     }

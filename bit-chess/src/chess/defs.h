@@ -3,8 +3,10 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <regex>
 
 using std::string;
+using std::regex;
 using std::vector;
 using std::unordered_map;
 
@@ -23,4 +25,5 @@ typedef vector<piece> piece_list; // Contain just pieces.
 typedef vector<piece> board;      // Contains all squares. Can contain NO_PIECE.
 typedef vector<position> position_list;
 
-typedef unordered_map<piece, char> piece_dictionary;
+typedef unordered_map<piece, char> to_char_dictionary;
+typedef unordered_map<char, piece> to_piece_dictionary;
